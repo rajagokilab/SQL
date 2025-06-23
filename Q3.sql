@@ -18,17 +18,7 @@ CREATE TABLE Orders (
     FOREIGN KEY (customer_id) REFERENCES Customers(customer_id)
 );
 
--- Q3
-SELECT
-    c.region,
-    c.city,
-    SUM(od.quantity * p.price) AS total_sales_amount
-FROM Customers c
-JOIN Orders o ON c.customer_id = o.customer_id
-JOIN OrderDetails od ON o.order_id = od.order_id
-JOIN Products p ON od.product_id = p.product_id
-GROUP BY c.region, c.city
-ORDER BY c.region, c.city;
+
 
 
 -- Products Table
@@ -79,6 +69,24 @@ INSERT INTO OrderDetails (order_id, product_id, quantity) VALUES
 (3004, 201, 1),
 (3004, 205, 10);
 
-
-
 -- Q3
+SELECT
+    c.region,
+    c.city,
+    SUM(od.quantity * p.price) AS total_sales_amount
+FROM Customers c
+JOIN Orders o ON c.customer_id = o.customer_id
+JOIN OrderDetails od ON o.order_id = od.order_id
+JOIN Products p ON od.product_id = p.product_id
+GROUP BY c.region, c.city
+ORDER BY c.region, c.city;
+
+SELECT
+    c.region,
+    SUM(od.quantity * p.price) AS total_sales_amount
+FROM Customers c
+JOIN Orders o ON c.customer_id = o.customer_id
+JOIN OrderDetails od ON o.order_id = od.order_id
+JOIN Products p ON od.product_id = p.product_id
+GROUP BY c.region
+ORDER BY total_sales_amount DESC;
